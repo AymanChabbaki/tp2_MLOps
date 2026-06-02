@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Data directories (managed by DVC)
+data/raw/*
+!data/raw/.gitignore
+data/processed/*
+!data/processed/.gitignore
+
+# MLflow
+mlruns/
+mlflow.db
+
+# DVC local configs & cache
+.dvc/config.local
+.dvc/tmp/
+.dvc/cache/
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# IDEs
+.vscode/
+.idea/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/

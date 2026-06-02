@@ -1,0 +1,45 @@
+stages:
+  ingest:
+    cmd: python src/ingest.py --config configs/params.yaml
+    deps:
+      - src/ingest.py
+      - configs/params.yaml
+    outs:
+      - data/raw/client_data.csv
+
+  validate:
+    cmd: python src/validate.py --config configs/params.yaml
+    deps:
+      - src/validate.py
+      - data/raw/client_data.csv
+    outs:
+      - data/processed/client_data_validated.csv
+
+  transform:
+    cmd: python src/transform.py --config configs/params.yaml
+    deps:
+      - src/transform.py
+      - data/processed/client_data_validated.csv
+      - configs/params.yaml
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  train:
+    cmd: python src/train.py --config configs/params.yaml
+    deps:
+      - src/train.py
+      - data/processed/train.csv
+      - configs/params.yaml
+    outs:
+      - data/processed/model.pkl
+      - data/processed/mlflow_run_id.txt
+
+  evaluate:
+    cmd: python src/evaluate.py --config configs/params.yaml
+    deps:
+      - src/evaluate.py
+      - data/processed/test.csv
+      - data/processed/model.pkl
+      - data/processed/mlflow_run_id.txt
+      - configs/params.yaml
